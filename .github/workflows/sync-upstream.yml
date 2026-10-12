@@ -1,0 +1,19 @@
+name: Sincronizar com storytold/cadcraft
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"   # a cada 6 horas
+  workflow_dispatch:          # permite rodar manualmente em Actions
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.repository == 'patrick9kk/cadcraft'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Puxar atualizacoes do repositorio original
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh repo sync "${{ github.repository }}" --branch main
